@@ -1,7 +1,9 @@
 ﻿namespace CruiseControlNet.SelfHost.Console.Controllers
 {
+    using System.Linq;
     using System.Web.Http;
     using ThoughtWorks.CruiseControl.Remote;
+    using ThoughtWorks.CruiseControl.Remote.Messages;
 
     /// <summary>
     /// Exposes server information.
@@ -35,19 +37,25 @@
         /// <returns>
         /// The server details.
         /// </returns>
-        public Models.Server Get()
+        public Models.ServerSummary Get()
         {
             if (this.cruiseServer == null)
             {
-                return new Models.Server
+                return new Models.ServerSummary
                     {
                         Status = Models.ServerStatus.NotRunning
                     };
             }
 
-            var model = new Models.Server
+            var projects = this.cruiseServer.GetProjectStatus(new ServerRequest());
+            var model = new Models.ServerSummary
                 {
-                    Version = this.cruiseServer.GetType().Assembly.GetName().Version.ToString()
+                    Version = this.cruiseServer.GetType().Assembly.GetName().Version.ToString(),
+                    Status = Models.ServerStatus.Running,
+                    Projects = projects.Projects.Select(p => new Models.ProjectSummary
+                        {
+                            Name = p.Name
+                        }).ToArray()
                 };
             return model;
         }

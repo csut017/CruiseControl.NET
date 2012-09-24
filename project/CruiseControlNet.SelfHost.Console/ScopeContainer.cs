@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
     using System.Web.Http.Dependencies;
     using ThoughtWorks.CruiseControl.Remote;
 
@@ -53,8 +55,11 @@
         /// </returns>
         public object GetService(Type serviceType)
         {
-            return serviceType == typeof(ICruiseServer)
-                ? this.factory.ServerInstance
+            var canInitialise = serviceType
+                .GetConstructors()
+                .Any(CanBeInitialised);
+            return canInitialise
+                ? Activator.CreateInstance(serviceType, this.factory.ServerInstance)
                 : null;
         }
         #endregion
@@ -69,8 +74,11 @@
         /// </returns>
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return serviceType == typeof(ICruiseServer)
-                ? new[] { this.factory.ServerInstance }
+            var canInitialise = serviceType
+                .GetConstructors()
+                .Any(CanBeInitialised);
+            return canInitialise
+                ? new[] { Activator.CreateInstance(serviceType, this.factory.ServerInstance) }
                 : new object[0];
         }
         #endregion
@@ -81,6 +89,28 @@
         /// </summary>
         public void Dispose()
         {
+        }
+        #endregion
+        #endregion
+
+        #region Private methods
+        #region CanBeInitialised()
+        /// <summary>
+        /// Checks if a constructor has the necessary parameters to be initialised.
+        /// </summary>
+        /// <param name="constructor">The constructor.</param>
+        /// <returns>
+        /// <c>true</c> if the constructor can be initialised; <c>false</c> otherwise.
+        /// </returns>
+        private static bool CanBeInitialised(ConstructorInfo constructor)
+        {
+            var parameters = constructor.GetParameters();
+            if (parameters.Count() == 1)
+            {
+                return parameters[0].ParameterType == typeof(ICruiseServer);
+            }
+
+            return false;
         }
         #endregion
         #endregion

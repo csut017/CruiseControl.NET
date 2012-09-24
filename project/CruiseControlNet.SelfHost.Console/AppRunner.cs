@@ -6,6 +6,9 @@
     using System.Runtime.Remoting;
     using System.Web.Http;
     using System.Web.Http.SelfHost;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json.Serialization;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Core.Util;
     using ThoughtWorks.CruiseControl.Remote.Mono;
@@ -190,10 +193,17 @@
         {
             Log.Info("Starting web API server...");
             var config = new HttpSelfHostConfiguration(options.BaseEndpoint);
+
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            json.SerializerSettings.Converters.Add(new StringEnumConverter());
+
             config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.DependencyResolver = new ScopeContainer(factory);
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             var apiServer = new HttpSelfHostServer(config);
+            apiServer.OpenAsync().Wait();
             Log.Info("...web API server started ({0})", options.BaseEndpoint);
             return apiServer;
         }
