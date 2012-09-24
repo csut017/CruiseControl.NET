@@ -1,0 +1,8 @@
+﻿CruiseControl.Net Server Console Runner (beta)
+Provides functionality to run a CruiseControl.NET server in a console.
+
+This (beta) version has been extended to allow client connections via http.
+
+ccnet [options]
+
+options:
