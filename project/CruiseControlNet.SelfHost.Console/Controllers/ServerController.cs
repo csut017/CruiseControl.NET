@@ -1,5 +1,6 @@
 ﻿namespace CruiseControlNet.SelfHost.Console.Controllers
 {
+    using CruiseControlNet.SelfHost.Console.Helpers;
     using System.Linq;
     using System.Web.Http;
     using ThoughtWorks.CruiseControl.Remote;
@@ -20,9 +21,9 @@
 
         #region Constructors
         /// <summary>
-        /// Initialises a new instance of the <see cref="ServerController"/> class.
+        /// Initializes a new instance of the <see cref="ServerController" /> class.
         /// </summary>
-        /// <param name="cruiseServer">The <see cref="ICruiseServer"/> to use.</param>
+        /// <param name="cruiseServer">The cruise server.</param>
         public ServerController(ICruiseServer cruiseServer)
         {
             this.cruiseServer = cruiseServer;
@@ -32,7 +33,7 @@
         #region Public methods
         #region Get()
         /// <summary>
-        /// Gets the server detials.
+        /// Gets the server details.
         /// </summary>
         /// <returns>
         /// The server details.
@@ -47,15 +48,12 @@
                     };
             }
 
-            var projects = this.cruiseServer.GetProjectStatus(new ServerRequest());
+            var projects = this.cruiseServer.GetCruiseServerSnapshot(new ServerRequest());
             var model = new Models.ServerSummary
                 {
                     Version = this.cruiseServer.GetType().Assembly.GetName().Version.ToString(),
                     Status = Models.ServerStatus.Running,
-                    Projects = projects.Projects.Select(p => new Models.ProjectSummary
-                        {
-                            Name = p.Name
-                        }).ToArray()
+                    Projects = projects.Snapshot.ProjectStatuses.Select(p => p.ToModel()).ToArray()
                 };
             return model;
         }

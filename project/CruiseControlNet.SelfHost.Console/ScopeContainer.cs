@@ -11,7 +11,7 @@
     /// A scope container for connecting the server with the API controllers.
     /// </summary>
     public class ScopeContainer
-        : IDependencyScope, IDependencyResolver
+        : IDependencyResolver
     {
         #region Private fields
         /// <summary>

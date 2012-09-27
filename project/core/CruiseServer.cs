@@ -33,8 +33,8 @@ namespace ThoughtWorks.CruiseControl.Core
         #region Private fields
         private readonly IProjectSerializer projectSerializer;
         private readonly IConfigurationService configurationService;
-		private readonly IFileSystem fileSystem;
-		private readonly IExecutionEnvironment executionEnvironment;
+        private readonly IFileSystem fileSystem;
+        private readonly IExecutionEnvironment executionEnvironment;
         private IConfiguration configuration;
         [Obsolete]
         private readonly ICruiseManager manager;
@@ -47,8 +47,8 @@ namespace ThoughtWorks.CruiseControl.Core
         private bool disposed;
         private IQueueManager integrationQueueManager;
         // TODO: Replace this with a proper IoC container
-        private Dictionary<Type, object> services = new Dictionary<Type,object>();
-    	private readonly string programmDataFolder;
+        private Dictionary<Type, object> services = new Dictionary<Type, object>();
+        private readonly string programmDataFolder;
         private object logCacheLock = new object();
         private TimeSpan cacheTime;
         #endregion
@@ -69,14 +69,14 @@ namespace ThoughtWorks.CruiseControl.Core
                             IProjectIntegratorListFactory projectIntegratorListFactory,
                             IProjectSerializer projectSerializer,
                             IProjectStateManager stateManager,
-							IFileSystem fileSystem,
-							IExecutionEnvironment executionEnvironment,
+                            IFileSystem fileSystem,
+                            IExecutionEnvironment executionEnvironment,
                             List<ExtensionConfiguration> extensionList)
         {
             this.configurationService = configurationService;
             this.projectSerializer = projectSerializer;
-			this.fileSystem = fileSystem;
-			this.executionEnvironment = executionEnvironment;
+            this.fileSystem = fileSystem;
+            this.executionEnvironment = executionEnvironment;
 
             // Leave the manager for backwards compatability - it is marked as obsolete
 #pragma warning disable 0618
@@ -100,7 +100,7 @@ namespace ThoughtWorks.CruiseControl.Core
             }
 
             this.configurationService.AddConfigurationUpdateHandler(Restart);
-        	programmDataFolder = this.executionEnvironment.GetDefaultProgramDataFolder(ApplicationType.Server);
+            programmDataFolder = this.executionEnvironment.GetDefaultProgramDataFolder(ApplicationType.Server);
 
             // Initialise the cache time
             var cacheTimeInConfig = ConfigurationManager.AppSettings["cacheTime"];
@@ -191,10 +191,10 @@ namespace ThoughtWorks.CruiseControl.Core
             monitor.Reset();
 
             // Make sure the default program data folder exists
-			if (!fileSystem.DirectoryExists(programmDataFolder))
+            if (!fileSystem.DirectoryExists(programmDataFolder))
             {
-				Log.Info("Initialising data folder: '{0}'", programmDataFolder);
-            	fileSystem.EnsureFolderExists(programmDataFolder);
+                Log.Info("Initialising data folder: '{0}'", programmDataFolder);
+                fileSystem.EnsureFolderExists(programmDataFolder);
             }
 
             integrationQueueManager.StartAllProjects();
@@ -441,16 +441,16 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     snapshot = integrationQueueManager.GetCruiseServerSnapshot();
                     if (request.SessionToken != SecurityOverride.SessionIdentifier)
                     {
                         snapshot.ProjectStatuses = this.FilterProjects(
-                            request.SessionToken, 
+                            request.SessionToken,
                             snapshot.ProjectStatuses);
                         snapshot.QueueSetSnapshot = this.FilterQueues(
                             request.SessionToken,
- 							snapshot.ProjectStatuses, // must contain the filtered projects
+                            snapshot.ProjectStatuses, // must contain the filtered projects
                             snapshot.QueueSetSnapshot);
                     }
                 }));
@@ -471,7 +471,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     data = integrationQueueManager.GetProjectStatuses();
                     if (request.SessionToken != SecurityOverride.SessionIdentifier)
                     {
@@ -498,7 +498,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 {
                     // Perform the actual send message
                     Log.Info("New message received: " + request.Message);
-                    Message message = new Message(request.Message,request.Kind );
+                    Message message = new Message(request.Message, request.Kind);
                     if (!FireSendMessageReceived(arg.ProjectName, message))
                     {
                         LookupProject(arg.ProjectName).AddMessage(message);
@@ -539,7 +539,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewProject,
                 null,
                 delegate
-                    {
+                {
                     data = GetIntegrator(request.ProjectName)
                         .IntegrationRepository
                         .GetMostRecentBuildNames(request.NumberOfBuilds);
@@ -580,7 +580,8 @@ namespace ThoughtWorks.CruiseControl.Core
             DataResponse response = new DataResponse(RunProjectRequest(request,
                 SecurityPermission.ViewProject,
                 null,
-                delegate {
+                delegate
+                {
                     data = this.RetrieveLogData(request.ProjectName, request.BuildName, request.CompressData);
                 }));
             response.Data = data;
@@ -650,7 +651,8 @@ namespace ThoughtWorks.CruiseControl.Core
                 response = new DataResponse(RunServerRequest(request,
                     SecurityPermission.ViewConfiguration,
                     null,
-                    delegate {
+                    delegate
+                    {
                         data = new ServerLogFileReader().Read();
                     }));
             }
@@ -669,7 +671,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ChangeProjectConfiguration,
                 SecurityEvent.AddProject,
                 delegate
-                    {
+                {
                     Log.Info("Adding project - " + request.ProjectDefinition);
                     try
                     {
@@ -699,7 +701,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ChangeProjectConfiguration,
                 SecurityEvent.DeleteProject,
                 delegate
-                    {
+                {
                     Log.Info("Deleting project - " + request.ProjectName);
                     try
                     {
@@ -731,7 +733,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ChangeProjectConfiguration,
                 SecurityEvent.UpdateProject,
                 delegate
-                    {
+                {
                     Log.Info("Updating project - " + request.ProjectName);
                     try
                     {
@@ -791,7 +793,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     Log.Trace("Returning version number");
                     try
                     {
@@ -946,7 +948,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     //TODO: this is currently a hack
                     // this method sould return a collection of drives used by ccnet
                     // since each project can be hostet on a different drive.
@@ -984,7 +986,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewProject,
                 null,
                 delegate
-                    {
+                {
                     IProjectIntegrator integrator = GetIntegrator(request.ProjectName);
                     if (integrator != null)
                     {
@@ -1046,7 +1048,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewProject,
                 null,
                 delegate
-                    {
+                {
                     if (request is BuildRequest)
                     {
                         var actualRequest = request as BuildRequest;
@@ -1078,13 +1080,13 @@ namespace ThoughtWorks.CruiseControl.Core
                 var fileInfo = new FileInfo(filePath);
                 if (!fileInfo.FullName.StartsWith(sourceProject.ArtifactDirectory, StringComparison.OrdinalIgnoreCase))
                 {
-                    var message = string.Format(CultureInfo.CurrentCulture,"Files can only be retrieved from the artefact folder - unable to retrieve {0}", request.FileName);
+                    var message = string.Format(CultureInfo.CurrentCulture, "Files can only be retrieved from the artefact folder - unable to retrieve {0}", request.FileName);
                     Log.Warning(message);
                     throw new CruiseControlException(message);
                 }
                 else if (fileInfo.FullName.StartsWith(Path.Combine(sourceProject.ArtifactDirectory, "buildlogs"), StringComparison.OrdinalIgnoreCase))
                 {
-                    var message = string.Format(CultureInfo.CurrentCulture,"Unable to retrieve files from the build logs folder - unable to retrieve {0}", request.FileName);
+                    var message = string.Format(CultureInfo.CurrentCulture, "Unable to retrieve files from the build logs folder - unable to retrieve {0}", request.FileName);
                     Log.Warning(message);
                     throw new CruiseControlException(message);
                 }
@@ -1092,12 +1094,12 @@ namespace ThoughtWorks.CruiseControl.Core
                 RemotingFileTransfer fileTransfer = null;
                 if (fileInfo.Exists)
                 {
-                    Log.Debug(string.Format(CultureInfo.CurrentCulture,"Retrieving file '{0}' from '{1}'", request.FileName, request.ProjectName));
+                    Log.Debug(string.Format(CultureInfo.CurrentCulture, "Retrieving file '{0}' from '{1}'", request.FileName, request.ProjectName));
                     fileTransfer = new RemotingFileTransfer(File.OpenRead(filePath));
                 }
                 else
                 {
-                    Log.Warning(string.Format(CultureInfo.CurrentCulture,"Unable to find file '{0}' in '{1}'", request.FileName, request.ProjectName));
+                    Log.Warning(string.Format(CultureInfo.CurrentCulture, "Unable to find file '{0}' in '{1}'", request.FileName, request.ProjectName));
                 }
                 response.FileTransfer = fileTransfer;
                 response.Result = ResponseResult.Success;
@@ -1124,7 +1126,8 @@ namespace ThoughtWorks.CruiseControl.Core
             LoginResponse response = new LoginResponse(RunServerRequest(request,
                 null,
                 null,
-                delegate {
+                delegate
+                {
                     sessionToken = securityManager.Login(request);
                 }));
             response.SessionToken = sessionToken;
@@ -1142,7 +1145,8 @@ namespace ThoughtWorks.CruiseControl.Core
             Response response = RunServerRequest(request,
                 null,
                 null,
-                delegate {
+                delegate
+                {
                     securityManager.Logout(request.SessionToken);
                 });
             return response;
@@ -1161,7 +1165,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewSecurity,
                 SecurityEvent.GetSecurityConfiguration,
                 delegate
-                    {
+                {
                     ServerSecurityConfigurationInformation config = new ServerSecurityConfigurationInformation();
                     config.Manager = securityManager;
                     foreach (IProject project in configuration.Projects)
@@ -1189,7 +1193,8 @@ namespace ThoughtWorks.CruiseControl.Core
             ListUsersResponse response = new ListUsersResponse(RunServerRequest(request,
                 SecurityPermission.ViewSecurity,
                 SecurityEvent.ListAllUsers,
-                delegate {
+                delegate
+                {
                     users = securityManager.ListAllUsers();
                 }));
             response.Users = users;
@@ -1210,17 +1215,17 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewSecurity,
                 SecurityEvent.DiagnoseSecurityPermissions,
                 delegate
-                    {
+                {
                     Array permissions = Enum.GetValues(typeof(SecurityPermission));
                     foreach (string projectName in request.Projects)
                     {
                         if (string.IsNullOrEmpty(projectName))
                         {
-                            Log.Info(string.Format(CultureInfo.CurrentCulture,"DiagnoseServerPermission for user {0}", request.UserName));
+                            Log.Info(string.Format(CultureInfo.CurrentCulture, "DiagnoseServerPermission for user {0}", request.UserName));
                         }
                         else
                         {
-                            Log.Info(string.Format(CultureInfo.CurrentCulture,"DiagnoseProjectPermission for user {0} project {1}", request.UserName, projectName));
+                            Log.Info(string.Format(CultureInfo.CurrentCulture, "DiagnoseProjectPermission for user {0} project {1}", request.UserName, projectName));
                         }
                         foreach (SecurityPermission permission in permissions)
                         {
@@ -1251,7 +1256,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 SecurityPermission.ViewSecurity,
                 SecurityEvent.ViewAuditLog,
                 delegate
-                    {
+                {
                     records = securityManager.ReadAuditRecords(request.StartRecord,
                         request.NumberOfRecords,
                         request.Filter);
@@ -1272,9 +1277,9 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     string displayName = securityManager.GetDisplayName(request.SessionToken, request.UserName);
-                    Log.Debug(string.Format(CultureInfo.CurrentCulture,"Changing password for '{0}'", displayName));
+                    Log.Debug(string.Format(CultureInfo.CurrentCulture, "Changing password for '{0}'", displayName));
                     securityManager.ChangePassword(request.SessionToken,
                         request.OldPassword,
                         request.NewPassword);
@@ -1294,9 +1299,9 @@ namespace ThoughtWorks.CruiseControl.Core
                 null,
                 null,
                 delegate
-                    {
+                {
                     string displayName = securityManager.GetDisplayName(request.SessionToken, request.UserName);
-                    Log.Debug(string.Format(CultureInfo.CurrentCulture,"'{0}' is resetting password for '{1}'", displayName, request.UserName));
+                    Log.Debug(string.Format(CultureInfo.CurrentCulture, "'{0}' is resetting password for '{1}'", displayName, request.UserName));
                     securityManager.ResetPassword(request.SessionToken,
                         request.UserName,
                         request.NewPassword);
@@ -1592,8 +1597,8 @@ namespace ThoughtWorks.CruiseControl.Core
             var defaultIsAllowed = (securityManager.GetDefaultRight(SecurityPermission.ViewProject) == SecurityRight.Allow);
             foreach (QueueSnapshot queue in queueSet.Queues)
             {
-				if (filteredProjects.Select(x=>x.Queue).Contains(queue.QueueName))
-					allowedQueues.Queues.Add(queue);
+                if (filteredProjects.Select(x => x.Queue).Contains(queue.QueueName))
+                    allowedQueues.Queues.Add(queue);
             }
             return allowedQueues;
         }
@@ -1648,11 +1653,11 @@ namespace ThoughtWorks.CruiseControl.Core
             {
                 // See if we can find the type
                 Type extensionType = Type.GetType(extensionConfig.Type);
-                if (extensionType == null) throw new NullReferenceException(string.Format(CultureInfo.CurrentCulture,"Unable to find extension '{0}'", extensionConfig.Type));
+                if (extensionType == null) throw new NullReferenceException(string.Format(CultureInfo.CurrentCulture, "Unable to find extension '{0}'", extensionConfig.Type));
 
                 // Load and initialise the extension
                 ICruiseServerExtension extension = Activator.CreateInstance(extensionType) as ICruiseServerExtension;
-                if (extension == null) throw new NullReferenceException(string.Format(CultureInfo.CurrentCulture,"Unable to create an instance of '{0}'", extensionType.FullName));
+                if (extension == null) throw new NullReferenceException(string.Format(CultureInfo.CurrentCulture, "Unable to create an instance of '{0}'", extensionType.FullName));
                 extension.Initialise(this, extensionConfig);
 
                 // Add to the list of extensions
@@ -1745,17 +1750,17 @@ namespace ThoughtWorks.CruiseControl.Core
                     // The project has been found and it has security
                     authorisation = projectIntegrator.Project.Security;
                     requiresSession = authorisation.RequiresSession(securityManager);
-					// if "Guest" have some rights, the service must be able to check the
-					// rights for "Guest", but without userName it wont work.
-					if (string.IsNullOrEmpty(userName))
-						userName = authorisation.GuestAccountName;
+                    // if "Guest" have some rights, the service must be able to check the
+                    // rights for "Guest", but without userName it wont work.
+                    if (string.IsNullOrEmpty(userName))
+                        userName = authorisation.GuestAccountName;
                 }
                 else if ((projectIntegrator != null) &&
                     (projectIntegrator.Project != null) &&
                     (projectIntegrator.Project.Security == null))
                 {
                     // The project is found, but security is missing - application error
-                    string errorMessage = string.Format(CultureInfo.CurrentCulture,"Security not found for project {0}", projectName);
+                    string errorMessage = string.Format(CultureInfo.CurrentCulture, "Security not found for project {0}", projectName);
                     Log.Error(errorMessage);
                     if (eventType.HasValue)
                     {
@@ -1770,7 +1775,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 else
                 {
                     // Couldn't find the requested project
-                    string errorMessage = string.Format(CultureInfo.CurrentCulture,"project not found {0}", projectName);
+                    string errorMessage = string.Format(CultureInfo.CurrentCulture, "project not found {0}", projectName);
                     Log.Error(errorMessage);
                     if (eventType.HasValue)
                     {
@@ -1791,7 +1796,7 @@ namespace ThoughtWorks.CruiseControl.Core
                     // Checking server-level security
                     if (!securityManager.CheckServerPermission(userName, permission))
                     {
-                        string info = string.Format(CultureInfo.CurrentCulture,"{2} [{0}] has been denied {1} permission at the server",
+                        string info = string.Format(CultureInfo.CurrentCulture, "{2} [{0}] has been denied {1} permission at the server",
                             userName, permission, displayName);
                         Log.Warning(info);
                         if (eventType.HasValue)
@@ -1806,7 +1811,7 @@ namespace ThoughtWorks.CruiseControl.Core
                     }
                     else
                     {
-                        string info = string.Format(CultureInfo.CurrentCulture,"{2} [{0}] has been granted {1} permission at the server",
+                        string info = string.Format(CultureInfo.CurrentCulture, "{2} [{0}] has been granted {1} permission at the server",
                             userName, permission, displayName);
                         Log.Debug(info);
                         if (eventType.HasValue)
@@ -1828,7 +1833,7 @@ namespace ThoughtWorks.CruiseControl.Core
                         permission,
                         securityManager.GetDefaultRight(permission)))
                     {
-                        string info = string.Format(CultureInfo.CurrentCulture,"{3} [{0}] has been denied {1} permission on '{2}'",
+                        string info = string.Format(CultureInfo.CurrentCulture, "{3} [{0}] has been denied {1} permission on '{2}'",
                             userName, permission, projectName, displayName);
                         Log.Warning(info);
                         if (eventType.HasValue)
@@ -1843,7 +1848,7 @@ namespace ThoughtWorks.CruiseControl.Core
                     }
                     else
                     {
-                        Log.Debug(string.Format(CultureInfo.CurrentCulture,"{3} [{0}] has been granted {1} permission on '{2}'",
+                        Log.Debug(string.Format(CultureInfo.CurrentCulture, "{3} [{0}] has been granted {1} permission on '{2}'",
                             userName,
                             permission,
                             projectName,
@@ -1866,7 +1871,7 @@ namespace ThoughtWorks.CruiseControl.Core
                 switch (defaultRight)
                 {
                     case SecurityRight.Allow:
-                        Log.Debug(string.Format(CultureInfo.CurrentCulture,"{3} [{0}] has been granted {1} permission on '{2}'",
+                        Log.Debug(string.Format(CultureInfo.CurrentCulture, "{3} [{0}] has been granted {1} permission on '{2}'",
                             userName,
                             permission,
                             projectName,
@@ -1874,7 +1879,7 @@ namespace ThoughtWorks.CruiseControl.Core
                         return;
                     default:
                         // Tell the user that the session is unknown
-                        var info = string.Format(CultureInfo.CurrentCulture,"Session with token '{0}' is not valid", sessionToken);
+                        var info = string.Format(CultureInfo.CurrentCulture, "Session with token '{0}' is not valid", sessionToken);
                         Log.Warning(info);
                         if (eventType.HasValue)
                         {
@@ -1902,7 +1907,7 @@ namespace ThoughtWorks.CruiseControl.Core
             DataResponse response = new DataResponse(RunProjectRequest(request,
                 SecurityPermission.ViewProject,
                 null,
-                (arg, resp) => 
+                (arg, resp) =>
                 {
                     // Retrieve the project configuration
                     var project = GetIntegrator(arg.ProjectName).Project;
@@ -1940,7 +1945,7 @@ namespace ThoughtWorks.CruiseControl.Core
 
             // Generate the log and report keys
             var logKey = projectName +
-                buildName + 
+                buildName +
                 (compress ? "-c" : string.Empty);
 
             // Check if the log has already been cached

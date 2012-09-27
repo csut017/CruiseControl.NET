@@ -1,14 +1,13 @@
 ﻿namespace CruiseControlNet.SelfHost.Console
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Remoting;
     using System.Web.Http;
     using System.Web.Http.SelfHost;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json.Serialization;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Core.Util;
     using ThoughtWorks.CruiseControl.Remote.Mono;
@@ -195,10 +194,10 @@
             var config = new HttpSelfHostConfiguration(options.BaseEndpoint);
 
             var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             json.SerializerSettings.Converters.Add(new StringEnumConverter());
 
+            config.Routes.MapHttpRoute("API Build", "api/{controller}/{project}/{id}", new { id = RouteParameter.Optional }, new { controller = "build" });
             config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.DependencyResolver = new ScopeContainer(factory);
             config.Formatters.Remove(config.Formatters.XmlFormatter);

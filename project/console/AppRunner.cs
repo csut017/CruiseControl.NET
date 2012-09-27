@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Remoting;
 using ThoughtWorks.CruiseControl.Core;
 using ThoughtWorks.CruiseControl.Core.Util;
-using System.Runtime.Remoting;
 using ThoughtWorks.CruiseControl.Remote.Mono;
 
 namespace ThoughtWorks.CruiseControl.Console
@@ -27,35 +26,35 @@ namespace ThoughtWorks.CruiseControl.Console
         /// <returns></returns>
         public int Run(string[] args, bool usesShadowCopying)
         {
-        	ConsoleRunnerArguments consoleArgs = new ConsoleRunnerArguments();
-        	List<string> extra = new List<string>();
-        
-        	OptionSet opts = new OptionSet();
-        	opts.Add("h|?|help", "display this help screen", delegate(string v) { consoleArgs.ShowHelp = v != null; })
-        		.Add("c|config=", "the configuration file to use (defaults to ccnet.conf)", delegate(string v) { consoleArgs.ConfigFile = v; })
-        		.Add("r|remoting=", "turn remoting on/off (defaults to on)", delegate(string v) { consoleArgs.UseRemoting = v == "on"; })
-        		.Add("p|project=", "the project to integrate (???)", delegate(string v) { consoleArgs.Project = v; })
-        		.Add("v|validate", "validate the configuration file and exit", delegate(string v) { consoleArgs.ValidateConfigOnly = v != null; })
-        		.Add("l|logging=", "turn logging on/off (defaults to on)", delegate(string v) { consoleArgs.Logging = v == "on"; })
-        		.Add("e|errorpause=", "turn pause on error on/off (defaults to on)", delegate(string v) {consoleArgs.PauseOnError = v == "on"; });
-        	
-        	try
-        	{
-        		extra = opts.Parse(args);
-        	}
-        	catch (OptionException e)
-        	{
-				System.Console.WriteLine(e.Message);
-				System.Console.WriteLine(e.StackTrace);
-				return 1;
-			}
-        	
-        	if(consoleArgs.ShowHelp)
-        	{
-        		DisplayHelp(opts);
-        		return 0;
-        	}
-        
+            ConsoleRunnerArguments consoleArgs = new ConsoleRunnerArguments();
+            List<string> extra = new List<string>();
+
+            OptionSet opts = new OptionSet();
+            opts.Add("h|?|help", "display this help screen", delegate(string v) { consoleArgs.ShowHelp = v != null; })
+                .Add("c|config=", "the configuration file to use (defaults to ccnet.conf)", delegate(string v) { consoleArgs.ConfigFile = v; })
+                .Add("r|remoting=", "turn remoting on/off (defaults to on)", delegate(string v) { consoleArgs.UseRemoting = v == "on"; })
+                .Add("p|project=", "the project to integrate (???)", delegate(string v) { consoleArgs.Project = v; })
+                .Add("v|validate", "validate the configuration file and exit", delegate(string v) { consoleArgs.ValidateConfigOnly = v != null; })
+                .Add("l|logging=", "turn logging on/off (defaults to on)", delegate(string v) { consoleArgs.Logging = v == "on"; })
+                .Add("e|errorpause=", "turn pause on error on/off (defaults to on)", delegate(string v) { consoleArgs.PauseOnError = v == "on"; });
+
+            try
+            {
+                extra = opts.Parse(args);
+            }
+            catch (OptionException e)
+            {
+                System.Console.WriteLine(e.Message);
+                System.Console.WriteLine(e.StackTrace);
+                return 1;
+            }
+
+            if (consoleArgs.ShowHelp)
+            {
+                DisplayHelp(opts);
+                return 0;
+            }
+
             try
             {
                 runner = new ConsoleRunner(consoleArgs, new CruiseServerFactory());
@@ -125,7 +124,7 @@ namespace ThoughtWorks.CruiseControl.Console
                 }
             }
         }
-        
+
         private static void DisplayHelp(OptionSet opts)
         {
             Assembly thisApp = Assembly.GetExecutingAssembly();
@@ -138,10 +137,10 @@ namespace ThoughtWorks.CruiseControl.Console
                 System.Console.Write(data);
             }
             finally
-            {            	
+            {
                 helpStream.Close();
             }
-            opts.WriteOptionDescriptions (System.Console.Out);
+            opts.WriteOptionDescriptions(System.Console.Out);
         }
     }
 }

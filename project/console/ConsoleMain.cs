@@ -1,19 +1,22 @@
 using System;
+using System.Configuration;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Runtime.Remoting;
-using System.Configuration;
+using System.Threading;
 
 namespace ThoughtWorks.CruiseControl.Console
 {
-	public class ConsoleMain
-	{
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ConsoleMain
+    {
         private static object lockObject = new object();
 
-		[STAThread]
-		internal static int Main(string[] args)
-		{
+        [STAThread]
+        internal static int Main(string[] args)
+        {
             bool restart = true;
             int result = 0;
             DateTime restartTime = DateTime.MinValue;
