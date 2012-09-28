@@ -6,9 +6,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CCNet-Net4-Readme.txt = CCNet-Net4-Readme.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.SelfHost", "CruiseControlNet.SelfHost\CruiseControlNet.SelfHost.csproj", "{08C4D002-A35E-46EC-91CB-1298C1E04E9E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{949E5841-1E14-4F0B-AD18-DEBF472B6027}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.SelfHost.Console", "CruiseControlNet.SelfHost.Console\CruiseControlNet.SelfHost.Console.csproj", "{5846ADD3-F4E7-4228-9A91-80752B9A3277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.SelfHost", "CruiseControlNet.SelfHost\CruiseControlNet.SelfHost.csproj", "{08C4D002-A35E-46EC-91CB-1298C1E04E9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,16 +18,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5846ADD3-F4E7-4228-9A91-80752B9A3277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5846ADD3-F4E7-4228-9A91-80752B9A3277}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5846ADD3-F4E7-4228-9A91-80752B9A3277}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5846ADD3-F4E7-4228-9A91-80752B9A3277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5846ADD3-F4E7-4228-9A91-80752B9A3277} = {949E5841-1E14-4F0B-AD18-DEBF472B6027}
+		{08C4D002-A35E-46EC-91CB-1298C1E04E9E} = {949E5841-1E14-4F0B-AD18-DEBF472B6027}
 	EndGlobalSection
 EndGlobal

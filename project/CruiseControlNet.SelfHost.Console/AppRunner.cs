@@ -1,13 +1,9 @@
 ﻿namespace CruiseControlNet.SelfHost.Console
 {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Remoting;
-    using System.Web.Http;
-    using System.Web.Http.SelfHost;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Core.Util;
     using ThoughtWorks.CruiseControl.Remote.Mono;
@@ -81,15 +77,14 @@
                 return 0;
             }
 
-            HttpSelfHostServer apiServer = null;
+            ICruiseServerFactory factory = null;
             try
             {
                 // Start the actual console runner
-                ICruiseServerFactory factory;
                 if (webOptions.IsConfigured)
                 {
                     var apiFactory = new WebApiServerFactory();
-                    apiServer = StartWebApi(apiFactory, webOptions);
+                    apiFactory.StartWebApi(apiFactory, webOptions);
                     factory = apiFactory;
                 }
                 else
@@ -120,11 +115,10 @@
             {
                 // Clean up 
                 runner = null;
-                if (apiServer != null)
+                var disposable = factory as IDisposable;
+                if (disposable != null)
                 {
-                    Log.Info("Closing web API server...");
-                    apiServer.CloseAsync().Wait();
-                    Log.Info("...web API server closed");
+                    disposable.Dispose();
                 }
             }
         }
@@ -182,32 +176,6 @@
         #endregion
 
         #region Private methods
-        #region StartWebApi()
-        /// <summary>
-        /// Starts the web API.
-        /// </summary>
-        /// <param name="factory">The factory to use.</param>
-        /// <param name="options">The options to use.</param>
-        private static HttpSelfHostServer StartWebApi(WebApiServerFactory factory, WebApiOptions options)
-        {
-            Log.Info("Starting web API server...");
-            var config = new HttpSelfHostConfiguration(options.BaseEndpoint);
-
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            json.SerializerSettings.Converters.Add(new StringEnumConverter());
-
-            config.Routes.MapHttpRoute("API Build", "api/{controller}/{project}/{id}", new { id = RouteParameter.Optional }, new { controller = "build" });
-            config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
-            config.DependencyResolver = new ScopeContainer(factory);
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-            var apiServer = new HttpSelfHostServer(config);
-            apiServer.OpenAsync().Wait();
-            Log.Info("...web API server started ({0})", options.BaseEndpoint);
-            return apiServer;
-        }
-        #endregion
-
         #region DisplayHelp()
         /// <summary>
         /// Displays the help.
