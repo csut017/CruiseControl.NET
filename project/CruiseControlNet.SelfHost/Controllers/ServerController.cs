@@ -11,37 +11,31 @@
     /// Exposes server information.
     /// </summary>
     public class ServerController
-        : ApiController
+        : ApiControllerBase
     {
-        #region Private fields
-        /// <summary>
-        /// The associated <see cref="ICruiseServer"/>.
-        /// </summary>
-        private readonly ICruiseServer cruiseServer;
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerController" /> class.
         /// </summary>
         /// <param name="cruiseServer">The cruise server.</param>
         public ServerController(ICruiseServer cruiseServer)
+            : base(cruiseServer)
         {
-            this.cruiseServer = cruiseServer;
         }
         #endregion
 
         #region Public methods
-        #region Get()
+        #region Index()
         /// <summary>
         /// Gets the server details.
         /// </summary>
         /// <returns>
         /// The server details.
         /// </returns>
-        public ServerSummary Get()
+        [HttpGet]
+        public ServerSummary Index()
         {
-            if (this.cruiseServer == null)
+            if (this.CruiseServer == null)
             {
                 return new ServerSummary
                     {
@@ -49,10 +43,10 @@
                     };
             }
 
-            var projects = this.cruiseServer.GetCruiseServerSnapshot(new ServerRequest());
+            var projects = this.CruiseServer.GetCruiseServerSnapshot(new ServerRequest());
             var model = new ServerSummary
                 {
-                    Version = this.cruiseServer.GetType().Assembly.GetName().Version.ToString(),
+                    Version = this.CruiseServer.GetType().Assembly.GetName().Version.ToString(),
                     Status = ServerStatus.Running,
                     Projects = projects.Snapshot.ProjectStatuses.Select(p => p.ToModel()).ToArray()
                 };

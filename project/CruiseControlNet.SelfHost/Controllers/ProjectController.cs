@@ -1,11 +1,12 @@
 ﻿namespace CruiseControlNet.SelfHost.Controllers
 {
+    using CruiseControlNet.SelfHost.Helpers;
+    using CruiseControlNet.SelfHost.Models;
     using System;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
-    using CruiseControlNet.SelfHost.Helpers;
-    using CruiseControlNet.SelfHost.Models;
     using ThoughtWorks.CruiseControl.Remote;
     using ThoughtWorks.CruiseControl.Remote.Messages;
 
@@ -13,13 +14,9 @@
     /// Exposes project information.
     /// </summary>
     public class ProjectController
-        : ApiController
+        : ApiControllerBase
     {
         #region Private fields
-        /// <summary>
-        /// The associated <see cref="ICruiseServer"/>.
-        /// </summary>
-        private readonly ICruiseServer cruiseServer;
         #endregion
 
         #region Constructors
@@ -28,94 +25,132 @@
         /// </summary>
         /// <param name="cruiseServer">The cruise server.</param>
         public ProjectController(ICruiseServer cruiseServer)
+            : base(cruiseServer)
         {
-            this.cruiseServer = cruiseServer;
         }
         #endregion
 
         #region Public methods
-        #region GetAll()
-        /// <summary>
-        /// Gets all the projects.
-        /// </summary>
-        /// <returns>
-        /// The project details.
-        /// </returns>
-        [Queryable]
-        public IQueryable<ProjectSummary> GetAll()
-        {
-            if (this.cruiseServer == null)
-            {
-                return null;
-            }
-
-            var projects = this.cruiseServer.GetCruiseServerSnapshot(new ServerRequest());
-            var model = projects.Snapshot.ProjectStatuses.Select(p => p.ToModel()).AsQueryable();
-            return model;
-        }
-        #endregion
-
-        #region GetByCategory()
-        /// <summary>
-        /// Gets all the projects in a category.
-        /// </summary>
-        /// <param name="category">The category to get the projects for.</param>
-        /// <returns>
-        /// The project details.
-        /// </returns>
-        [Queryable]
-        public IQueryable<ProjectSummary> GetByCategory(string category)
-        {
-            if (this.cruiseServer == null)
-            {
-                return null;
-            }
-
-            var projects = this.cruiseServer.GetCruiseServerSnapshot(new ServerRequest());
-            var model = projects.Snapshot
-                .ProjectStatuses
-                .Where(p => string.Equals(p.Category, category, StringComparison.InvariantCultureIgnoreCase))
-                .Select(p => p.ToModel()).AsQueryable();
-            return model;
-        }
-        #endregion
-
-        #region GetById()
+        #region Index()
         /// <summary>
         /// Gets a project by its identifier (name).
         /// </summary>
-        /// <param name="id">The identifier (name) of the project.</param>
+        /// <param name="project">The project.</param>
         /// <returns>
         /// The project details.
         /// </returns>
-        public ProjectSummary GetById(string id)
+        /// <exception cref="HttpResponseException"></exception>
+        [HttpGet]
+        public ProjectSummary Index(string project)
         {
-            if (this.cruiseServer == null)
-            {
-                return null;
-            }
+            this.ValidateServer();
 
             // Try to find the project
-            var projects = this.cruiseServer.GetCruiseServerSnapshot(new ServerRequest());
-            var project = projects.Snapshot
+            var projects = this.CruiseServer.GetCruiseServerSnapshot(new ServerRequest());
+            var entity = projects.Snapshot
                 .ProjectStatuses
-                .FirstOrDefault(p => string.Equals(p.Name, id, StringComparison.InvariantCultureIgnoreCase));
-            if (project == null)
+                .FirstOrDefault(p => string.Equals(p.Name, project, StringComparison.InvariantCultureIgnoreCase));
+            if (entity == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var model = project.ToModel();
-            var status = this.cruiseServer.TakeStatusSnapshot(new ProjectRequest(null, project.Name));
+            var model = entity.ToModel();
+            var status = this.CruiseServer.TakeStatusSnapshot(new ProjectRequest(null, entity.Name));
             model.Tasks = status.Snapshot.ToModel();
             return model;
         }
         #endregion
 
-        #region PostCommand()
-        public CommandStatus Force(string id, Command command)
+        #region Start()
+        /// <summary>
+        /// Starts a project.
+        /// </summary>
+        /// <param name="project">The project name.</param>
+        /// <returns>
+        /// A NoContent response.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage Start(string project)
         {
-            return new CommandStatus { Success = true, Message = "Build has been queued" };
+            this.ValidateServer();
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            this.CruiseServer.Start(new ProjectRequest(null, entity.Name));
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+        #endregion
+
+        #region Stop()
+        /// <summary>
+        /// Stops a project.
+        /// </summary>
+        /// <param name="project">The project name.</param>
+        /// <returns>
+        /// A NoContent response.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage Stop(string project)
+        {
+            this.ValidateServer();
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            this.CruiseServer.Stop(new ProjectRequest(null, entity.Name));
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+        #endregion
+
+        #region Build()
+        /// <summary>
+        /// Queues a build for a project.
+        /// </summary>
+        /// <param name="project">The project name.</param>
+        /// <returns>
+        /// A NoContent response.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage Build(string project)
+        {
+            this.ValidateServer();
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            this.CruiseServer.ForceBuild(new ProjectRequest(null, entity.Name));
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+        #endregion
+
+        #region Abort()
+        /// <summary>
+        /// Aborts a project build.
+        /// </summary>
+        /// <param name="project">The project name.</param>
+        /// <returns>
+        /// A NoContent response.
+        /// </returns>
+        [HttpPost]
+        public HttpResponseMessage Abort(string project)
+        {
+            this.ValidateServer();
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            this.CruiseServer.AbortBuild(new ProjectRequest(null, entity.Name));
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
         #endregion
         #endregion

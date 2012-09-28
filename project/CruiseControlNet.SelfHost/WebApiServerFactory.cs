@@ -91,8 +91,8 @@
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             json.SerializerSettings.Converters.Add(new StringEnumConverter());
 
-            config.Routes.MapHttpRoute("API Build", "api/{controller}/{project}/{id}", new { id = RouteParameter.Optional }, new { controller = "build" });
-            config.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            config.Routes.MapHttpRoute("Project", "api/{controller}/{project}/{action}/{id}", new { action = "index", id = RouteParameter.Optional }, new { controller = "build|project" });
+            config.Routes.MapHttpRoute("Default", "api/{controller}/{action}/{id}", new { action = "index", id = RouteParameter.Optional });
             config.DependencyResolver = new ScopeContainer(factory);
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             this.apiServer = new HttpSelfHostServer(config);

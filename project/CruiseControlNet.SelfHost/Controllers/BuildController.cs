@@ -1,10 +1,9 @@
 ﻿namespace CruiseControlNet.SelfHost.Controllers
 {
-    using System;
+    using CruiseControlNet.SelfHost.Helpers;
     using System.Linq;
     using System.Net;
     using System.Web.Http;
-    using CruiseControlNet.SelfHost.Helpers;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Remote;
     using ThoughtWorks.CruiseControl.Remote.Messages;
@@ -14,28 +13,21 @@
     /// Exposes build information.
     /// </summary>
     public class BuildController
-        : ApiController
+        : ApiControllerBase
     {
-        #region Private fields
-        /// <summary>
-        /// The associated <see cref="ICruiseServer"/>.
-        /// </summary>
-        private readonly ICruiseServer cruiseServer;
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectController" /> class.
         /// </summary>
         /// <param name="cruiseServer">The cruise server.</param>
         public BuildController(ICruiseServer cruiseServer)
+            : base(cruiseServer)
         {
-            this.cruiseServer = cruiseServer;
         }
         #endregion
 
         #region Public methods
-        #region GetAll()
+        #region Index()
         /// <summary>
         /// Gets the builds for a project.
         /// </summary>
@@ -43,28 +35,25 @@
         /// <returns>
         /// The build details.
         /// </returns>
-        [Queryable]
+        [HttpGet]
         public IQueryable<BuildSummary> Index(string project)
         {
-            if (this.cruiseServer == null)
-            {
-                return null;
-            }
+            this.ValidateServer();
 
-            var properName = this.RetrieveProperProjectName(project);
-            if (properName == null)
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var builds = this.cruiseServer.GetBuildNames(new ProjectRequest(null, properName));
+            var builds = this.CruiseServer.GetBuildNames(new ProjectRequest(null, entity.Name));
             return builds.Data
                 .Select(b => new LogFile(b))
                 .Select(b => b.ToModel()).AsQueryable();
         }
         #endregion
 
-        #region GetById()
+        #region Details()
         /// <summary>
         /// Gets the details on a build.
         /// </summary>
@@ -73,42 +62,48 @@
         /// <returns>
         /// The build details.
         /// </returns>
+        [HttpGet]
         public BuildSummary Details(string project, string id)
         {
-            if (this.cruiseServer == null)
-            {
-                return null;
-            }
+            this.ValidateServer();
 
-            var properName = this.RetrieveProperProjectName(project);
-            if (properName == null)
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
             var model = new LogFile(id).ToModel();
-            var status = this.cruiseServer.GetFinalBuildStatus(new BuildRequest(null, properName) { BuildName = id });
-            model.Tasks = status.Snapshot.ToModel();
+            var result = this.CruiseServer.GetFinalBuildStatus(new BuildRequest(null, entity.Name) { BuildName = id });
+            model.Tasks = result.Snapshot.ToModel();
             return model;
         }
         #endregion
-        #endregion
 
-        #region Private methods
-        #region RetrieveProperProjectName()
+        #region Log()
         /// <summary>
-        /// Retrieves the proper (case-sensitive) name for a project.
+        /// Gets the log for a build.
         /// </summary>
-        /// <param name="name">The name to match.</param>
+        /// <param name="project">The project.</param>
+        /// <param name="id">The id.</param>
         /// <returns>
-        /// The matched name.
+        /// The log.
         /// </returns>
-        private string RetrieveProperProjectName(string name)
+        [HttpGet]
+        public BuildSummary Log(string project, string id)
         {
-            var projects = this.cruiseServer.GetProjectStatus(new ServerRequest());
-            var project = projects.Projects
-                .FirstOrDefault(p => string.Equals(name, p.Name, StringComparison.InvariantCultureIgnoreCase));
-            return project == null ? null : project.Name;
+            this.ValidateServer();
+
+            var entity = this.RetrieveProject(project);
+            if (entity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            var model = new LogFile(id).ToModel();
+            var result = this.CruiseServer.GetLog(new BuildRequest(null, entity.Name) { BuildName = id });
+            model.Log = result.Data;
+            return model;
         }
         #endregion
         #endregion

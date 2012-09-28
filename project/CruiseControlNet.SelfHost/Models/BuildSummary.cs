@@ -42,6 +42,13 @@
         /// </summary>
         public TaskSummary[] Tasks { get; set; }
         #endregion
+
+        #region Log
+        /// <summary>
+        /// Gets or sets the log.
+        /// </summary>
+        public string Log { get; set; }
+        #endregion
         #endregion
     }
 }
