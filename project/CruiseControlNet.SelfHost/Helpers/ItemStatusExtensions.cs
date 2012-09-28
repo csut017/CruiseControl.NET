@@ -27,7 +27,11 @@
                                  {
                                      Description = i.Description,
                                      Name = i.Name,
-                                     Tasks = i.ChildItems.Any() ? i.ToModel() : null
+                                     Tasks = i.ChildItems.Any() ? i.ToModel() : null,
+                                     Status = i.Status,
+                                     Error = i.Error,
+                                     TimeStarted = i.TimeStarted,
+                                     TimeCompleted = i.TimeCompleted
                                  })
                              .ToArray();
         }
