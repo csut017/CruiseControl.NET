@@ -23,17 +23,41 @@
             return status == null
                        ? null
                        : status.ChildItems
-                             .Select(i => new TaskSummary
-                                 {
-                                     Description = i.Description,
-                                     Name = i.Name,
-                                     Tasks = i.ChildItems.Any() ? i.ToModel() : null,
-                                     Status = i.Status,
-                                     Error = i.Error,
-                                     TimeStarted = i.TimeStarted,
-                                     TimeCompleted = i.TimeCompleted
-                                 })
+                             .Select(Convert)
                              .ToArray();
+        }
+        #endregion
+        #endregion
+
+        #region Private methods
+        #region Convert()
+        /// <summary>
+        /// Converts the specified status.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// The summary.
+        /// </returns>
+        private static TaskSummary Convert(ItemStatus status)
+        {
+            var model = new TaskSummary
+                {
+                    Description = status.Description,
+                    Name = status.Name,
+                    Tasks = status.ChildItems.Any() ? status.ToModel() : null,
+                    Status = status.Status,
+                    Error = status.Error
+                };
+            if (status.TimeStarted.HasValue || status.TimeCompleted.HasValue)
+            {
+                model.Times = new TaskSummaryTimes
+                    {
+                        Started = status.TimeStarted,
+                        Completed = status.TimeCompleted
+                    };
+            }
+
+            return model;
         }
         #endregion
         #endregion

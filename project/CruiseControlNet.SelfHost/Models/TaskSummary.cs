@@ -1,6 +1,5 @@
 ﻿namespace CruiseControlNet.SelfHost.Models
 {
-    using System;
     using ThoughtWorks.CruiseControl.Remote;
 
     /// <summary>
@@ -41,18 +40,11 @@
         public ItemBuildStatus Status { get; set; }
         #endregion
 
-        #region TimeStarted
+        #region Times
         /// <summary>
-        /// Gets or sets the time started.
+        /// Gets or sets the times.
         /// </summary>
-        public DateTime? TimeStarted { get; set; }
-        #endregion
-
-        #region TimeCompleted
-        /// <summary>
-        /// Gets or sets the time completed.
-        /// </summary>
-        public DateTime? TimeCompleted { get; set; }
+        public TaskSummaryTimes Times { get; set; }
         #endregion
         #endregion
     }
