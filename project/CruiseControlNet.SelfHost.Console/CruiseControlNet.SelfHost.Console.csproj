@@ -53,6 +53,218 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\xsl\AlternativeNUnitDetails.xsl">
+      <Link>Templates\AlternativeNUnitDetails.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\ant.xsl">
+      <Link>Templates\ant.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\AntsPerformanceCallTree.xslt">
+      <Link>Templates\AntsPerformanceCallTree.xslt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\AntsPerformanceMethods.xslt">
+      <Link>Templates\AntsPerformanceMethods.xslt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\AntsPerformanceTopMethods.xslt">
+      <Link>Templates\AntsPerformanceTopMethods.xslt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\CodeItRight.xsl">
+      <Link>Templates\CodeItRight.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\CodeItRightSummary.xsl">
+      <Link>Templates\CodeItRightSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\compile-msbuild.xsl">
+      <Link>Templates\compile-msbuild.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\compile.xsl">
+      <Link>Templates\compile.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\dupfinder-summary.xsl">
+      <Link>Templates\dupfinder-summary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\dupfinder.xsl">
+      <Link>Templates\dupfinder.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\emma.xsl">
+      <Link>Templates\emma.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\fit.xsl">
+      <Link>Templates\fit.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\fitnesse.xsl">
+      <Link>Templates\fitnesse.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\fxcop-report_1_36.xsl">
+      <Link>Templates\fxcop-report_1_36.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\fxcop-summary_1_36.xsl">
+      <Link>Templates\fxcop-summary_1_36.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\gendarme-report-ccnet.xsl">
+      <Link>Templates\gendarme-report-ccnet.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\gendarme-summary-ccnet.xsl">
+      <Link>Templates\gendarme-summary-ccnet.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\header.xsl">
+      <Link>Templates\header.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MBUnitDetails.xsl">
+      <Link>Templates\MBUnitDetails.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MBUnitSummary.xsl">
+      <Link>Templates\MBUnitSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\Metrics.xsl">
+      <Link>Templates\Metrics.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MetricsSummary.xsl">
+      <Link>Templates\MetricsSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\ModificationHistory.xsl">
+      <Link>Templates\ModificationHistory.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\modifications.xsl">
+      <Link>Templates\modifications.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\modificationsByChangeNumber.xsl">
+      <Link>Templates\modificationsByChangeNumber.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\msbuild.xsl">
+      <Link>Templates\msbuild.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestCover2010.xsl">
+      <Link>Templates\MsTestCover2010.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestReport.xsl">
+      <Link>Templates\MsTestReport.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestReport2008.xsl">
+      <Link>Templates\MsTestReport2008.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestReport2010.xsl">
+      <Link>Templates\MsTestReport2010.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestSummary.xsl">
+      <Link>Templates\MsTestSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestSummary2008.xsl">
+      <Link>Templates\MsTestSummary2008.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\MsTestSummary2010.xsl">
+      <Link>Templates\MsTestSummary2010.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NAnt.xsl">
+      <Link>Templates\NAnt.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NAntTiming.xsl">
+      <Link>Templates\NAntTiming.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NCover.xsl">
+      <Link>Templates\NCover.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NCoverExplorer.xsl">
+      <Link>Templates\NCoverExplorer.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NCoverExplorerSummary.xsl">
+      <Link>Templates\NCoverExplorerSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\NCoverSummary.xsl">
+      <Link>Templates\NCoverSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\ndependreport-ccnet.v2.xsl">
+      <Link>Templates\ndependreport-ccnet.v2.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\ShfbReport.xsl">
+      <Link>Templates\ShfbReport.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\ShfbSummary.xsl">
+      <Link>Templates\ShfbSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\SimianReport.xsl">
+      <Link>Templates\SimianReport.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\SimianSummary.xsl">
+      <Link>Templates\SimianSummary.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\statistics.xsl">
+      <Link>Templates\statistics.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\StatisticsGraphs.xsl">
+      <Link>Templates\StatisticsGraphs.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\StyleCopReport.xsl">
+      <Link>Templates\StyleCopReport.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\tests.xsl">
+      <Link>Templates\tests.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\timing.xsl">
+      <Link>Templates\timing.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\UnitTestDetails.xsl">
+      <Link>Templates\UnitTestDetails.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\unittests.xsl">
+      <Link>Templates\unittests.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\xsl\vil.xsl">
+      <Link>Templates\vil.xsl</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Help.txt" />
   </ItemGroup>
   <ItemGroup>

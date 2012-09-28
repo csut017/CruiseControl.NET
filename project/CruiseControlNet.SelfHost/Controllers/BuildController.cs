@@ -1,5 +1,10 @@
 ﻿namespace CruiseControlNet.SelfHost.Controllers
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Xsl;
     using CruiseControlNet.SelfHost.Helpers;
     using System.Linq;
     using System.Net;
@@ -92,6 +97,22 @@
         [HttpGet]
         public BuildSummary Log(string project, string id)
         {
+            return this.Log(project, id, null);
+        }   
+
+        /// <summary>
+        /// Gets the log for a build.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="format">The format.</param>
+        /// <returns>
+        /// The log.
+        /// </returns>
+        /// <exception cref="System.Web.Http.HttpResponseException"></exception>
+        [HttpGet]
+        public BuildSummary Log(string project, string id, string format)
+        {
             this.ValidateServer();
 
             var entity = this.RetrieveProject(project);
@@ -102,7 +123,38 @@
 
             var model = new LogFile(id).ToModel();
             var result = this.CruiseServer.GetLog(new BuildRequest(null, entity.Name) { BuildName = id });
-            model.Log = result.Data;
+            if (string.IsNullOrEmpty(format))
+            {
+                model.Log = result.Data;
+            }
+            else
+            {
+                var xslt = new XslCompiledTransform();
+                var path = Path.Combine(Environment.CurrentDirectory, "Templates", format + ".xsl");
+                if (!File.Exists(path))
+                {
+                    throw new HttpResponseException(HttpStatusCode.BadRequest);
+                }
+
+                using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (var reader = XmlReader.Create(stream))
+                    {
+                        xslt.Load(reader);
+                    }
+                }
+
+                var xml = new XmlDocument();
+                xml.LoadXml(result.Data);
+                var builder = new StringBuilder();
+                using (var output = XmlWriter.Create(builder))
+                {
+                    xslt.Transform(xml, output);
+                }
+
+                model.Log = builder.ToString();
+            }
+
             return model;
         }
         #endregion
