@@ -8,6 +8,7 @@
     using System.IO;
     using System.Web.Http;
     using System.Web.Http.SelfHost;
+    using Newtonsoft.Json.Serialization;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Core.Config;
     using ThoughtWorks.CruiseControl.Core.State;
@@ -90,6 +91,7 @@
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             json.SerializerSettings.Converters.Add(new StringEnumConverter());
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             config.Routes.MapHttpRoute("Project", "api/{controller}/{project}/{action}/{id}", new { action = "index", id = RouteParameter.Optional }, new { controller = "build|project" });
             config.Routes.MapHttpRoute("Default", "api/{controller}/{action}/{id}", new { action = "index", id = RouteParameter.Optional });

@@ -1,6 +1,6 @@
 ﻿namespace CruiseControlNet.SelfHost.Helpers
 {
-    using CruiseControlNet.SelfHost.Models;
+    using CruiseControlNet.Common;
     using System.Linq;
     using ThoughtWorks.CruiseControl.Remote;
 
@@ -45,7 +45,7 @@
                     Description = status.Description,
                     Name = status.Name,
                     Tasks = status.ChildItems.Any() ? status.ToModel() : null,
-                    Status = status.Status,
+                    Status = Convert(status.Status),
                     Error = status.Error
                 };
             if (status.TimeStarted.HasValue || status.TimeCompleted.HasValue)
@@ -58,6 +58,36 @@
             }
 
             return model;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="ItemBuildStatus"/> to a <see cref="TaskSummaryStatus"/>.
+        /// </summary>
+        /// <param name="status">The <see cref="ItemBuildStatus"/>.</param>
+        /// <returns>
+        /// The <see cref="TaskSummaryStatus"/>.
+        /// </returns>
+        private static TaskSummaryStatus Convert(ItemBuildStatus status)
+        {
+            switch (status)
+            {
+                case ItemBuildStatus.Cancelled:
+                    return TaskSummaryStatus.Cancelled;
+
+                case ItemBuildStatus.CompletedFailed:
+                    return TaskSummaryStatus.CompletedFailed;
+
+                case ItemBuildStatus.CompletedSuccess:
+                    return TaskSummaryStatus.CompletedSuccess;
+
+                case ItemBuildStatus.Pending:
+                    return TaskSummaryStatus.Pending;
+
+                case ItemBuildStatus.Running:
+                    return TaskSummaryStatus.Running;
+            }
+
+            return TaskSummaryStatus.Unknown;
         }
         #endregion
         #endregion

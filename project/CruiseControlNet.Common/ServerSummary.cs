@@ -1,4 +1,4 @@
-﻿namespace CruiseControlNet.SelfHost.Models
+﻿namespace CruiseControlNet.Common
 {
     /// <summary>
     /// The model for the server summary.

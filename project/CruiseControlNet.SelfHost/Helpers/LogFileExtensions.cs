@@ -1,6 +1,6 @@
 ﻿namespace CruiseControlNet.SelfHost.Helpers
 {
-    using CruiseControlNet.SelfHost.Models;
+    using CruiseControlNet.Common;
     using ThoughtWorks.CruiseControl.Core;
 
     /// <summary>

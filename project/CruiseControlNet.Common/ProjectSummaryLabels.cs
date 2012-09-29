@@ -1,4 +1,4 @@
-﻿namespace CruiseControlNet.SelfHost.Models
+﻿namespace CruiseControlNet.Common
 {
     /// <summary>
     /// Defines the labels in a project summary.

@@ -1,7 +1,5 @@
-﻿namespace CruiseControlNet.SelfHost.Models
+﻿namespace CruiseControlNet.Common
 {
-    using ThoughtWorks.CruiseControl.Remote;
-
     /// <summary>
     /// Defines the model for a build message.
     /// </summary>
@@ -19,7 +17,7 @@
         /// <summary>
         /// Gets or sets the type.
         /// </summary>
-        public Message.MessageKind Type { get; set; }
+        public BuildMessageType Type { get; set; }
         #endregion
         #endregion
     }

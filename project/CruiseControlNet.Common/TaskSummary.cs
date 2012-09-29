@@ -1,7 +1,5 @@
-﻿namespace CruiseControlNet.SelfHost.Models
+﻿namespace CruiseControlNet.Common
 {
-    using ThoughtWorks.CruiseControl.Remote;
-
     /// <summary>
     /// The summary of a task.
     /// </summary>
@@ -37,7 +35,7 @@
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        public ItemBuildStatus Status { get; set; }
+        public TaskSummaryStatus Status { get; set; }
         #endregion
 
         #region Times

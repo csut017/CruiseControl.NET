@@ -1,7 +1,5 @@
-﻿namespace CruiseControlNet.SelfHost.Models
+﻿namespace CruiseControlNet.Common
 {
-    using ThoughtWorks.CruiseControl.Remote;
-
     /// <summary>
     /// The model for a project summary.
     /// </summary>
@@ -26,21 +24,21 @@
         /// <summary>
         /// Gets or sets the activity.
         /// </summary>
-        public string Activity { get; set; }
+        public ProjectSummaryActivity Activity { get; set; }
         #endregion
 
-        #region State
+        #region Status
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        public ProjectIntegratorState Status { get; set; }
+        public ProjectSummaryStatus Status { get; set; }
         #endregion
 
         #region BuildStatus
         /// <summary>
         /// Gets or sets the build status.
         /// </summary>
-        public IntegrationStatus BuildStatus { get; set; }
+        public ProjectSummaryBuildStatus BuildStatus { get; set; }
         #endregion
 
         #region BuildStage

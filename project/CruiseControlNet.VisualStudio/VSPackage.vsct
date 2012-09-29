@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Commands package="guidCruiseControlNetPackage">
+    <Menus>
+      <Menu guid="guidCruiseControlNetCmdSet" id="menuMain" priority="0x0000" type="Menu">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupMain" />
+        <Strings>
+          <ButtonText>CruiseControl.NET</ButtonText>
+        </Strings>
+      </Menu>
+      <Menu guid="guidCruiseControlNetCmdSet" id="menuMonitor" priority="0x0000" type="ToolWindowToolbar">
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>CruiseControl.NET Monitor</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+    <Groups>
+      <Group guid="guidCruiseControlNetCmdSet" id="groupMain" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+      <Group guid="guidCruiseControlNetCmdSet" id="groupWindows" priority="0x0000">
+        <Parent guid="guidCruiseControlNetCmdSet" id="menuMain"/>
+      </Group>
+      <Group guid="guidCruiseControlNetCmdSet" id="groupSettings" priority="0x0010">
+        <Parent guid="guidCruiseControlNetCmdSet" id="menuMain"/>
+      </Group>
+      <Group guid="guidCruiseControlNetCmdSet" id="groupMonitor1" priority="0x0000">
+        <Parent guid="guidCruiseControlNetCmdSet" id="menuMonitor"/>
+      </Group>
+      <Group guid="guidCruiseControlNetCmdSet" id="groupMonitor2" priority="0x0000">
+        <Parent guid="guidCruiseControlNetCmdSet" id="menuMonitor"/>
+      </Group>
+    </Groups>
+    <Buttons>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdSettings" priority="0x0100" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupSettings" />
+        <Icon guid="guidImages" id="bmpSettings" />
+        <Strings>
+          <ButtonText>Settings...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdMonitorWindow" priority="0x0100" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupWindows"/>
+        <Icon guid="guidImages" id="bmpMonitor" />
+        <Strings>
+          <ButtonText>Monitor</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdForceProject" priority="0x0100" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupMonitor1"/>
+        <Icon guid="guidImages" id="bmpForceProject" />
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>Force Build</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdAbortProject" priority="0x0101" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupMonitor1"/>
+        <Icon guid="guidImages" id="bmpAbortProject" />
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>Abort Build</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdStartProject" priority="0x0100" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupMonitor2"/>
+        <Icon guid="guidImages" id="bmpStartProject" />
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>Start Project</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCruiseControlNetCmdSet" id="cmdStopProject" priority="0x0101" type="Button">
+        <Parent guid="guidCruiseControlNetCmdSet" id="groupMonitor2"/>
+        <Icon guid="guidImages" id="bmpStopProject" />
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>Stop Project</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpMonitor,bmpSettings,bmpForceProject,bmpAbortProject,bmpStartProject,bmpStopProject"/>
+    </Bitmaps>
+  </Commands>
+  <Symbols>
+    <GuidSymbol name="guidCruiseControlNetPackage" value="{c9d6fe21-b2be-4c41-8e88-52f73b15537c}" />
+    <GuidSymbol name="guidCruiseControlNetCmdSet" value="{b4637b2e-c070-467f-a327-1bf0eccfad5b}">
+      <IDSymbol name="menuMain" value="0x1001" />
+      <IDSymbol name="menuMonitor" value="0x1002" />
+      <IDSymbol name="groupMain" value="0x2001" />
+      <IDSymbol name="groupWindows" value="0x2002" />
+      <IDSymbol name="groupSettings" value="0x2003" />
+      <IDSymbol name="groupMonitor1" value="0x2004" />
+      <IDSymbol name="groupMonitor2" value="0x2005" />
+      <IDSymbol name="cmdSettings" value="0x3001" />
+      <IDSymbol name="cmdMonitorWindow" value="0x3002" />
+      <IDSymbol name="cmdForceProject" value="0x3003" />
+      <IDSymbol name="cmdAbortProject" value="0x3004" />
+      <IDSymbol name="cmdStartProject" value="0x3005" />
+      <IDSymbol name="cmdStopProject" value="0x3006" />
+    </GuidSymbol>
+    <GuidSymbol name="guidImages" value="{6053699b-8e2a-47ed-983f-e7ae2abb3271}" >
+      <IDSymbol name="bmpMonitor" value="1" />
+      <IDSymbol name="bmpSettings" value="2" />
+      <IDSymbol name="bmpForceProject" value="3" />
+      <IDSymbol name="bmpAbortProject" value="4" />
+      <IDSymbol name="bmpStartProject" value="5" />
+      <IDSymbol name="bmpStopProject" value="6" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

@@ -1,18 +1,18 @@
 ﻿namespace CruiseControlNet.SelfHost.Controllers
 {
+    using CruiseControlNet.SelfHost.Helpers;
     using System;
     using System.IO;
-    using System.Text;
-    using System.Xml;
-    using System.Xml.Xsl;
-    using CruiseControlNet.SelfHost.Helpers;
     using System.Linq;
     using System.Net;
+    using System.Text;
     using System.Web.Http;
+    using System.Xml;
+    using System.Xml.Xsl;
     using ThoughtWorks.CruiseControl.Core;
     using ThoughtWorks.CruiseControl.Remote;
     using ThoughtWorks.CruiseControl.Remote.Messages;
-    using BuildSummary = CruiseControlNet.SelfHost.Models.BuildSummary;
+    using BuildSummary = CruiseControlNet.Common.BuildSummary;
 
     /// <summary>
     /// Exposes build information.
@@ -98,7 +98,7 @@
         public BuildSummary Log(string project, string id)
         {
             return this.Log(project, id, null);
-        }   
+        }
 
         /// <summary>
         /// Gets the log for a build.

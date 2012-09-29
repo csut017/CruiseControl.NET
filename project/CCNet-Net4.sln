@@ -12,6 +12,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.SelfHost.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.SelfHost", "CruiseControlNet.SelfHost\CruiseControlNet.SelfHost.csproj", "{08C4D002-A35E-46EC-91CB-1298C1E04E9E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{BAD0AA92-3E52-441C-8189-B5E1FEE19220}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.VisualStudio", "CruiseControlNet.VisualStudio\CruiseControlNet.VisualStudio.csproj", "{16527BD3-EC34-4B1A-9F55-7224F682546E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNet.Common", "CruiseControlNet.Common\CruiseControlNet.Common.csproj", "{652985A6-DE2E-41AA-A9FD-BCD1D52340F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +32,14 @@ Global
 		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08C4D002-A35E-46EC-91CB-1298C1E04E9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16527BD3-EC34-4B1A-9F55-7224F682546E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16527BD3-EC34-4B1A-9F55-7224F682546E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16527BD3-EC34-4B1A-9F55-7224F682546E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16527BD3-EC34-4B1A-9F55-7224F682546E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{652985A6-DE2E-41AA-A9FD-BCD1D52340F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{652985A6-DE2E-41AA-A9FD-BCD1D52340F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{652985A6-DE2E-41AA-A9FD-BCD1D52340F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{652985A6-DE2E-41AA-A9FD-BCD1D52340F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -33,5 +47,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5846ADD3-F4E7-4228-9A91-80752B9A3277} = {949E5841-1E14-4F0B-AD18-DEBF472B6027}
 		{08C4D002-A35E-46EC-91CB-1298C1E04E9E} = {949E5841-1E14-4F0B-AD18-DEBF472B6027}
+		{16527BD3-EC34-4B1A-9F55-7224F682546E} = {BAD0AA92-3E52-441C-8189-B5E1FEE19220}
 	EndGlobalSection
 EndGlobal

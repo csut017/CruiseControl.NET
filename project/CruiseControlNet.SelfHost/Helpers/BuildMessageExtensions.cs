@@ -1,5 +1,6 @@
 ﻿namespace CruiseControlNet.SelfHost.Helpers
 {
+    using CruiseControlNet.Common;
     using ThoughtWorks.CruiseControl.Remote;
 
     /// <summary>
@@ -10,19 +11,53 @@
         #region Public methods
         #region ToModel()
         /// <summary>
-        /// Converts a <see cref="Message"/> to a <see cref="Models.BuildMessage"/>
+        /// Converts a <see cref="Message"/> to a <see cref="BuildMessage"/>
         /// </summary>
         /// <param name="message">The message to convert.</param>
         /// <returns>
-        /// The converted <see cref="Models.BuildMessage"/>.
+        /// The converted <see cref="BuildMessage"/>.
         /// </returns>
-        public static Models.BuildMessage ToModel(this Message message)
+        public static BuildMessage ToModel(this Message message)
         {
-            return new Models.BuildMessage
+            return new BuildMessage
                 {
                     Text = message.Text,
-                    Type = message.Kind
+                    Type = Convert(message.Kind)
                 };
+        }
+        #endregion
+        #endregion
+
+        #region Private methods
+        #region Convert()
+        /// <summary>
+        /// Conerts a <see cref="Message.MessageKind"/> to a <see cref="BuildMessageType"/>.
+        /// </summary>
+        /// <param name="kind">The <see cref="Message.MessageKind"/>.</param>
+        /// <returns>
+        /// The <see cref="BuildMessageType"/>.
+        /// </returns>
+        private static BuildMessageType Convert(Message.MessageKind kind)
+        {
+            switch (kind)
+            {
+                case Message.MessageKind.Breakers:
+                    return BuildMessageType.Breakers;
+
+                case Message.MessageKind.BuildAbortedBy:
+                    return BuildMessageType.BuildAbortedBy;
+
+                case Message.MessageKind.BuildStatus:
+                    return BuildMessageType.BuildStatus;
+
+                case Message.MessageKind.FailingTasks:
+                    return BuildMessageType.FailingTasks;
+
+                case Message.MessageKind.Fixer:
+                    return BuildMessageType.Fixer;
+            }
+
+            return BuildMessageType.Unknown;
         }
         #endregion
         #endregion

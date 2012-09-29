@@ -1,7 +1,7 @@
 ﻿namespace CruiseControlNet.SelfHost.Controllers
 {
+    using CruiseControlNet.Common;
     using CruiseControlNet.SelfHost.Helpers;
-    using CruiseControlNet.SelfHost.Models;
     using System;
     using System.Linq;
     using System.Net;
